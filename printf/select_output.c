@@ -16,7 +16,7 @@ int (*select_output(char ch))(va_list)
 		{'r', print_rev},
 		{'S', print_bigS},
 		{'p', print_address},
-		{'%', print_percent}
+		{'%', output_handle}
 		};
 	int keys = 14;
 
