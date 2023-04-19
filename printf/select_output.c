@@ -1,4 +1,6 @@
-int (*select_output(char ch))(va_list, flags_t *)
+#include "main.h"
+
+int (*select_output(char ch))(va_list)
 {
 	OUTS output_funcs[] = {
 		{'i', output_ints},
