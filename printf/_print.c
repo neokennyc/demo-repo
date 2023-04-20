@@ -31,12 +31,13 @@ if (output)
 	}
 	else 
 	{
-            putchar(*format);
+          /*  putchar(*format);*/
+	    _print("%%%%c", *format);
            print_length++;
         }
         format++;
     }
 	va_end(args);
-	putchar('\n');
+	/*putchar('\n');*/
 	return (print_length);
 }
