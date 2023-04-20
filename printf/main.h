@@ -25,6 +25,7 @@ int output_hexlower(va_list arg);
 int output_hexupper(va_list arg);
 int output_ptraddress(va_list arg);
 int output_char(va_list arg);
+int output_r(va_list arg);
 int output_octal(va_list arg);
 int _printf(const char *format, ...);int output_ints(va_list arg);
 int (*select_output(char c))(va_list);

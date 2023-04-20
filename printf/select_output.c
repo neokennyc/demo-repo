@@ -11,6 +11,7 @@ int (*select_output(char ch))(va_list)
 		{'x', output_hexlower},
 		{'X', output_hexupper},
 		{'o', output_octal},
+		{'r', output_r},
 		{'p', output_ptraddress},
 	     {'%', output_handle}};
 		/*{'x', print_hex},*/
@@ -23,7 +24,7 @@ int (*select_output(char ch))(va_list)
 		/*{'p', print_address},*/
 		/*{'%', output_handle}*/
 		/*};*/
-	int keys = 10;
+	int keys = 11;
 
 	int j;
 
