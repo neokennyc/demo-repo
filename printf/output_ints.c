@@ -2,9 +2,10 @@
 #include <stdio.h>
                                      int output_ints(va_list arg)
 {
-	int len, num, print_nums;
+	int len, i, num, print_nums;
 	char buffer[12];
 
+	print_nums = 0;
 	num = va_arg(arg, int);
 	len = 0;
 	if (num < 0)

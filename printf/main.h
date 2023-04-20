@@ -18,8 +18,9 @@ typedef struct myOutputs
 
 
 int output_alpha(va_list arg);
+int output_handle(va_list arg);
 int output_char(va_list arg);
-int _printf(const char *format, ...);int Output_ints(va_list arg);
+int _printf(const char *format, ...);int output_ints(va_list arg);
 int (*select_output(char c))(va_list);
 int output_unsignedint(va_list arg);
 

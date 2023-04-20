@@ -14,7 +14,6 @@ int _printf(const char *format, ...)
 int (*output)(va_list);
 
 	va_start(args, format);
-num = 0;
 	print_length = 0;
 	if (!format)
 		return (-1);
