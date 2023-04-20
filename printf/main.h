@@ -21,6 +21,8 @@ typedef struct myOutputs
 
 int output_alpha(va_list arg);
 int output_handle(va_list arg);
+int output_hexlower(va_list arg);
+int output_hexupper(va_list arg);
 int output_char(va_list arg);
 int output_octal(va_list arg);
 int _printf(const char *format, ...);int output_ints(va_list arg);

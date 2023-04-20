@@ -26,6 +26,8 @@ _printf("Unsigned:[%u]\n", ui);
 printf("Unsigned:[%u]\n", ui);
 _printf("Unsigned octal:[%o]\n", ui);
 printf("Unsigned octal:[%o]\n", ui);
+printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
 _printf("Character:[%c]\n", 'H');
 printf("Character:[%c]\n", 'H');
 _printf("String:[%s]\n", "I am a string !");

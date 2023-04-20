@@ -7,7 +7,9 @@ int (*select_output(char ch))(va_list)
 		{'s', output_alpha},
 		{'c', output_char},
 		{'d', output_ints},
-		{'u', output_unsignedint},
+		{'u', output_unsignedint}, 
+		{'x', output_hexlower},
+		{'X', output_hexupper},
 		{'o', output_octal},
 		{'%', output_handle}};
 		/*{'x', print_hex},*/
@@ -20,7 +22,7 @@ int (*select_output(char ch))(va_list)
 		/*{'p', print_address},*/
 		/*{'%', output_handle}*/
 		/*};*/
-	int keys = 7;
+	int keys = 9;
 
 	int j;
 
