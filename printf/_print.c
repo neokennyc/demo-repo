@@ -15,12 +15,16 @@ int (*output)(va_list);
 
 	va_start(args, format);
 num = 0;
-	print_length = 0
+	print_length = 0;
+	if (!format)
+		return (-1);
+
+
+
     while (*format != '\0') {
         if (*format == '%') 
 	{
             format++;
-
 output = select_output(*format);
 if (output)
 	print_length += output(args);

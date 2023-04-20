@@ -5,5 +5,6 @@ int output_handle(va_list arg)
 {
 	(void)arg;
 	/*8(void)f;*/
-	return (_putchar('%'));
+	putchar('%');
+	return(1);
 }
