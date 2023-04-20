@@ -31,8 +31,7 @@ if (output)
 	}
 	else 
 	{
-          /*  putchar(*format);*/
-	    _print("%%%%c", *format);
+        putchar(*format);
            print_length++;
         }
         format++;
