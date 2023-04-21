@@ -15,7 +15,7 @@ int output_alpha(va_list arg)
 
 	while (*str != '\0') 
 	{
-putchar(*str);
+writeio(*str);
 str++;		
 count_alpha++;
 	}

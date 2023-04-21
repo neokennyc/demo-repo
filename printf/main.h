@@ -6,6 +6,7 @@
 
 #define ABS(x) ((x) < 0 ? (x) : (-x))
 
+#define BUFF_SIZE 1024
 /**
  * struct myOutputs - This struct will be used to filter which print
  * function for i,c,s,d,x,g,f......
@@ -18,7 +19,7 @@ typedef struct myOutputs
 	int (*selectprint)(va_list arg);
 } OUTS;
 
-
+int writeio(char ch);
 int output_alpha(va_list arg);
 int output_handle(va_list arg);
 int output_hexlower(va_list arg);
