@@ -1,8 +1,13 @@
 #include "main.h"
 
-const char * isPlus(const char * c, char sp)
+const char * isPlus(const char * c, char sp, va_list arg)
 {
-	int n;
+	int n, test;
+
+	test = va_arg(arg, int);
+	if (test > 0)
+	{
+	}
 if (sp == 'd' || sp == 'i')
 {
 	while (*c == '+' || *c == '-')

@@ -29,12 +29,13 @@ typedef struct myOutputs
 typedef struct myflags
 {
 	char flag;
-       const  char* (*flagtype)(const char *ch, char);
+       const  char* (*flagtype)(const char *ch, char, va_list);
 
 } isflag;
 
-const char * isPlus(const char * c, char);
-const char * isHash(const char * c, char);
+const char * isPlus(const char * c, char, va_list);
+const char * isHash(const char * c, char, va_list);
+const char * isSpace(const char * c, char, va_list);
 int _putchar(char c);
 int writeout(char ch);
 int output_alpha(va_list arg);
@@ -49,7 +50,7 @@ int output_ROT13(va_list arg);
 int output_octal(va_list arg);
 int _printf(const char *format, ...);int output_ints(va_list arg);
 int (*select_output(char c))(va_list);
-const char* (*flagtype(char c))(const char *, char);
+const char* (*flagtype(char c))(const char *, char, va_list);
 int output_unsignedint(va_list arg);
 
 #endif

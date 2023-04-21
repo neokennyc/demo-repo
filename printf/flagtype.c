@@ -1,12 +1,12 @@
 #include "main.h"
 
-const char* (*flagtype(char ch))(const char *c, char b)
+const char* (*flagtype(char ch))(const char *c, char b, va_list)
 {
 	isflag flag_funcs[] = {
                 {'+', isPlus},
-		/*{' ', isSpace},*/
+		{' ', isSpace},
 		{'#', isHash}};
-	int keys = 2;
+	int keys = 3;
 	int j;
 
 	for (j= 0; j < keys; j++)

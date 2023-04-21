@@ -8,10 +8,13 @@ int main(void)
 	_printf("%+--+--d\n", 78);
 	printf("%+--+--d\n", 78);
 
-
+	_printf("% d\n", 78);
+	printf("%  d\n", 78);
 
 
 	int num = 273;
+
+	_printf("%##X\n", num);               printf("%##X\n", num);
 printf("The octal representation of  %d is %#o\n", num, num);
 _printf("The octal representation of  %d is %#o\n", num, num);
 

@@ -12,7 +12,7 @@ int _printf(const char *format, ...)
 	int print_length;
 	va_list args;
 int (*output)(va_list);
-const char* (*flags)(const char *c, char sp);
+const char* (*flags)(const char *c, char sp, va_list);
 const char *f;
 char s;
 int i = 0;
@@ -37,12 +37,16 @@ while (1)
 	i++;
 
 }
+if (s == 'x' || s == 'X')
+{
+	print_length++;
+}
 
 flags = flagtype(*format);
 f = format;
 while (flags)
 {
-format =flags(f, s);
+format =flags(f, s, args);
 print_length++;
 		break;
 		}
