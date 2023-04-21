@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "main.h"
 
 int output_octal(va_list arg) 
@@ -21,7 +20,7 @@ int output_octal(va_list arg)
     
     /*Print the octal string in reverse order*/
     for (i = octal_len - 1; i >= 0; i--) {
-        putchar(octal_str[i]);
+        writeout(octal_str[i]);
         count++;
     }
     

@@ -21,7 +21,7 @@ int output_unsignedint(va_list arg)
                     /*print the unsigned int argument in reverse order*/
                     for (i = uint_len - 1; i >= 0; i--)
 		    {
-                        putchar(uint_str[i]);
+                        writeout(uint_str[i]);
 			count++;
                     }
 		    return (count);

@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "main.h"
 
 int output_hexlower(va_list arg)
@@ -30,7 +29,7 @@ int output_hexlower(va_list arg)
 
     /* Print the hexadecimal string in reverse order */
     for (i = hex_len - 1; i >= 0; i--) {
-        putchar(hex_str[i]);
+        writeout(hex_str[i]);
         count++;
     }
 

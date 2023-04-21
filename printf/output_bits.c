@@ -22,7 +22,7 @@ int output_bits(va_list arg)
     /* Print the binary string in reverse order*/
     for (i = binary_len - 1; i >= 0; i--) 
     {
-        putchar(binary_str[i]);
+        writeout(binary_str[i]);
         count++;
     }
     

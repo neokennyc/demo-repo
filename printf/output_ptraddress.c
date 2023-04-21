@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include "main.h"
 #include <stdarg.h>
 
 int output_ptraddress(va_list arg)
@@ -27,12 +27,12 @@ int output_ptraddress(va_list arg)
     } while (address != 0);
 
     /* Add the "0x" prefix to the output string */
-    putchar('0');
-    putchar('x');
+    writeout('0');
+    writeout('x');
 
     /* Print the address string in reverse order */
     for (i = count - 1; i >= 0; i--) {
-        putchar(hex_str[i]);
+        writeout(hex_str[i]);
 	count++;
     }
 

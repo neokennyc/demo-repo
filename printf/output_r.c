@@ -1,6 +1,5 @@
 #include "main.h"
 #include <stdarg.h>
-#include <stdio.h>
 int output_r(va_list arg)
 {
 int i = 0, j;
@@ -14,7 +13,7 @@ int i = 0, j;
 		i++;
 
 	for (j = i - 1; j >= 0; j--)
-		putchar(s[j]);
+		writeout(s[j]);
 
 	return (i);
 }

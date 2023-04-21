@@ -20,7 +20,7 @@
 	} while (num != 0);
 	for (i = len - 1; i >= 0; i--)
 	{
-        putchar(buffer[i]);
+        writeout(buffer[i]);
         print_nums++;
 	}
 	return (print_nums);

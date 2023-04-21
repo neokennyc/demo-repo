@@ -5,6 +5,7 @@ int (*select_output(char ch))(va_list)
 	OUTS output_funcs[] = {
 		{'i', output_ints},
 		{'s', output_alpha},
+		{'S', output_alpha},
 		{'c', output_char},
 		{'d', output_ints},
 		{'u', output_unsignedint}, 
@@ -26,7 +27,7 @@ int (*select_output(char ch))(va_list)
 		/*{'p', print_address},*/
 		/*{'%', output_handle}*/
 		/*};*/
-	int keys = 13;
+	int keys = 14;
 
 	int j;
 

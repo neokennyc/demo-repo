@@ -18,8 +18,8 @@ typedef struct myOutputs
 	char spec;
 	int (*selectprint)(va_list arg);
 } OUTS;
-
-int writeio(char ch);
+int _putchar(char c);
+int writeout(char ch);
 int output_alpha(va_list arg);
 int output_handle(va_list arg);
 int output_hexlower(va_list arg);

@@ -1,5 +1,5 @@
 #include <stdarg.h>
-#include <stdio.h>
+#include "main.h"
 
 int output_ROT13(va_list arg)
 {
@@ -22,7 +22,7 @@ for (j = 0; s1[j] != '\0'; j++)
 {
 if (n[i] == s1[j])
 {
-putchar(s2[j]);
+writeout(s2[j]);
 count_rot++;
 break;
 }

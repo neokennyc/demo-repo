@@ -15,9 +15,22 @@ int output_alpha(va_list arg)
 
 	while (*str != '\0') 
 	{
-writeio(*str);
+
+        if (*str >= 32 && *str < 127)
+	{
+            /*printable character*/
+count_alpha += writeout(*str);
+
+        } 
+	else 
+	{
+            /*non-printable character*/
+        count_alpha += writeout('\\');
+        count_alpha += writeout('x');
+	count_alpha += writeout((*str / 16) < 10 ? ('0' + (*str / 16)) : ('A' + (*str / 16 - 10)));
+         count_alpha += writeout((*str % 16) < 10 ? ('0' + (*str % 16)) : ('A' + (*str % 16 - 10)));
+	}
 str++;		
-count_alpha++;
 	}
 	return (count_alpha);
 }

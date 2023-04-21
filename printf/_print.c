@@ -33,7 +33,7 @@ if (output)
 	}
 	else 
 	{
-        putchar(*format);
+        writeout(*format);
            print_length++;
         }
         format++;

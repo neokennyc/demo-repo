@@ -44,6 +44,7 @@ _printf("Unknown:[%%r]\n");
 printf("Unknown:[%%r]\n");
 _printf("bits:[%b]\n", bits);
 _printf("rot13:[%R]\n", "Pascal");
+_printf("%S\n", "Best\nSchool");
 /*printf("bits:[%b]\n", bits);*/
 return (0);
 }
