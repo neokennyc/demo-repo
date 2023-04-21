@@ -4,9 +4,16 @@
 
 int main(void)
 {
-	int a = 9;
+
 	_printf("%+--+--d\n", 78);
-	_printf("%#x", &a);
+	printf("%+--+--d\n", 78);
+
+
+
+
+	int num = 273;
+printf("The octal representation of  %d is %#o\n", num, num);
+_printf("The octal representation of  %d is %#o\n", num, num);
 
 	return (0);
 }

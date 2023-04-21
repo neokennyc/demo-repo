@@ -9,18 +9,18 @@ const char * isHash(const char *c, char sp)
 	}
 	
 	/* Add a prefix for octal and hexadecimal numbers*/
-
-	writeout('0');
 	if (sp == 'o') 
 	{
-		writeout('o');                  
+		writeout('0');
 	}
 	else if (sp == 'x') 
 	{
+		writeout('0');
 		writeout('x');
 	} 
-	else 
+	else if  (sp == 'x')
 	{
+		writeout('0');
 		writeout('X');
 	}
 return (c);
