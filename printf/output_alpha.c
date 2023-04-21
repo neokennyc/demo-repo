@@ -10,7 +10,6 @@ int output_alpha(va_list arg)
 	count_alpha = 0;
 	if (!str)
 	{
-		str = "(null)";
 			return (0);
 	}
 

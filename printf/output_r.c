@@ -7,8 +7,8 @@ int i = 0, j;
 	char *s = va_arg(arg, char *);
 
 	/*(void)f;*/
-	if (!s)
-		s = "(null)";
+//	if (!s)
+//		s = "(null)";
 
 	while (s[i])
 		i++;

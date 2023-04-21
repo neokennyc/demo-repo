@@ -11,9 +11,11 @@ int main(void)
 {
 int len;
 int len2;
+int bits;
 unsigned int ui;
 void *addr;
 
+bits = 10;
 len = _printf("Let's try to printf a simple sentence.\n");
 len2 = printf("Let's try to printf a simple sentence.\n");
 ui = (unsigned int)INT_MAX + 1024;
@@ -40,5 +42,8 @@ _printf("Len:[%d]\n", len);
 printf("Len:[%d]\n", len2);
 _printf("Unknown:[%%r]\n");
 printf("Unknown:[%%r]\n");
+_printf("bits:[%b]\n", bits);
+_printf("rot13:[%R]\n", "Pascal");
+/*printf("bits:[%b]\n", bits);*/
 return (0);
 }
