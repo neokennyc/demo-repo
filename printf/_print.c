@@ -12,24 +12,45 @@ int _printf(const char *format, ...)
 	int print_length;
 	va_list args;
 int (*output)(va_list);
+const char* (*flags)(const char *c, char sp);
+const char *f;
+char s;
+int i = 0;
 
 	va_start(args, format);
 	print_length = 0;
 	if (!format)
 		return (-1);
 
-
-
     while (*format != '\0') {
         if (*format == '%') 
 	{
             format++;
+
+while (1)
+{
+	s = format[i];
+	if (s == 's' || s == 'd' || s == 'i' || s == 'x' || s == 'X' || s == 'o')
+	{
+		break;
+	}
+	i++;
+
+}
+
+flags = flagtype(*format);
+f = format;
+while (flags)
+{
+format =flags(f, s);
+print_length++;
+		break;
+		}
 output = select_output(*format);
 if (output)
 {
 	print_length += output(args);
-}
-        
+} 
 	}
 	else 
 	{
