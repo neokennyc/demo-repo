@@ -18,6 +18,8 @@ _printf("%08d\n", 895);              printf("%08d\n", 879);
 
 _printf("%05d\n", -89);              printf("%05d\n", -89);
 
+_printf("%09s\n", "pascal");
+
 	int num = 273;
 
 	_printf("%##X\n", num);               printf("%##X\n", num);

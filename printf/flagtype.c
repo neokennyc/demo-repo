@@ -6,7 +6,7 @@ const char* (*flagtype(char ch))(const char *c, char b, va_list)
                 {'+', isPlus},
 		{' ', isSpace},
 		{'#', isHash},
-		{'0', isZero}};
+		{'0', isZerocustom}};
 	int keys = 4;
 	int j;
 

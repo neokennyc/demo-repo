@@ -33,10 +33,13 @@ typedef struct myflags
 
 } isflag;
 
+
+const char * isZerostr(const char * c, char sp, char *);
+const char * isZeroint(const char * c, char sp, int);
 const char * isPlus(const char * c, char, va_list);
 const char * isHash(const char * c, char, va_list);
 const char * isSpace(const char * c, char, va_list);
-const char * isZero(const char * c, char, va_list);
+const char * isZerocustom(const char * c, char, va_list);
 int _putchar(char c);
 int writeout(char ch);
 int output_alpha(va_list arg);
