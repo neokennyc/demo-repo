@@ -30,7 +30,7 @@ int i = 0;
 while (1)
 {
 	s = format[i];
-	if (s == 's' || s == 'd' || s == 'i' || s == 'x' || s == 'X' || s == 'o')
+	if (s == 's' || s == 'd' || s == 'i' || s == 'x' || s == 'X' || s == 'o' || s == 'f')
 	{
 		break;
 	}

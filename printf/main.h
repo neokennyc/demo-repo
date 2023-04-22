@@ -40,6 +40,7 @@ const char * isPlus(const char * c, char, va_list);
 const char * isHash(const char * c, char, va_list);
 const char * isSpace(const char * c, char, va_list);
 const char * isZerocustom(const char * c, char, va_list);
+const char * isZeroflot(const char * c, char sp, double arg);
 int _putchar(char c);
 int writeout(char ch);
 int output_alpha(va_list arg);

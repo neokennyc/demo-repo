@@ -1,4 +1,5 @@
 #include "main.h"
+#include <ctype.h>
 
 const char * isPlus(const char * c, char sp, va_list arg)
 {
@@ -10,7 +11,7 @@ const char * isPlus(const char * c, char sp, va_list arg)
 	}
 if (sp == 'd' || sp == 'i')
 {
-	while (*c == '+' || *c == '-')
+	while (!isalpha(*c))
 	{
 if (*c == '+')
 	n = n * 1;

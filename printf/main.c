@@ -23,6 +23,11 @@ _printf("%09s\n", "pascal");
 	int num = 273;
 
 	_printf("%##X\n", num);               printf("%##X\n", num);
+
+	_printf("%014f\n", 67.87);
+          printf("%014f\n", 67.87);
+_printf("%+7d\n", 677);            printf("%+7d\n", 677);
+
 printf("The octal representation of  %d is %#o\n", num, num);
 _printf("The octal representation of  %d is %#o\n", num, num);
 
