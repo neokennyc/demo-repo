@@ -54,7 +54,11 @@ output = select_output(*format);
 if (output)
 {
 	print_length += output(args);
-} 
+}
+else
+{
+	writeout(*format);                     print_length++;
+}
 	}
 	else 
 	{

@@ -36,6 +36,7 @@ typedef struct myflags
 const char * isPlus(const char * c, char, va_list);
 const char * isHash(const char * c, char, va_list);
 const char * isSpace(const char * c, char, va_list);
+const char * isZero(const char * c, char, va_list);
 int _putchar(char c);
 int writeout(char ch);
 int output_alpha(va_list arg);

@@ -11,6 +11,12 @@ int main(void)
 	_printf("% d\n", 78);
 	printf("%  d\n", 78);
 
+	_printf("%05d\n", 89);
+        printf("%05d\n", 89);
+
+_printf("%08d\n", 895);              printf("%08d\n", 879);
+
+_printf("%05d\n", -89);              printf("%05d\n", -89);
 
 	int num = 273;
 
