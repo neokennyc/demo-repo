@@ -4,6 +4,8 @@
 
 int main(void)
 {
+	printf("%s  ", "pascal");
+	_printf("%s  ", "pascal");
 
 	_printf("%+--+--d\n", 78);
 	printf("%+--+--d\n", 78);
