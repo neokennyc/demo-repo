@@ -10,10 +10,11 @@ int main(int argc, char **argv) {
     char command[MAX_COMMAND_LENGTH];
     FILE *input = stdin;
 
-    if (argc > 1) {
+    if (argc > 1) 
+    {
         input = fopen(argv[1], "r");
         if (input == NULL) {
-            fprintf(stderr, "%s: %s: No such file or directory\n", argv[0], argv[1]);
+            fprintf(stderr, "%s: %d: cannot open %s: No such file or directory\n", argv[0], 0, argv[1]);
             exit(1);
         }
     }
