@@ -61,9 +61,14 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream) {
             buffer_size = new_size;
         }
 
-        // Read the next character
-        int c = read_char(stream);
-        if (c == EOF) {
+        // Read all available characters from the stream
+        ssize_t bytes_read = read(fileno(stream), buffer + buffer_pos, buffer_size - buffer_pos);
+        if (bytes_read == -1) {
+            return -1;
+        }
+
+        // Check if we have reached the end of the stream
+        if (bytes_read == 0) {
             if (read == 0) {
                 return -1;
             } else {
@@ -71,12 +76,12 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream) {
             }
         }
 
-        // Store the character in the buffer
-        buffer[buffer_pos++] = (char) c;
-        ++read;
+        // Update the number of bytes read and the buffer position
+        read += bytes_read;
+        buffer_pos += bytes_read;
 
         // Check if we have reached the end of the line
-        if (c == '\n') {
+        if (memchr(buffer + buffer_pos - bytes_read, '\n', bytes_read) != NULL) {
             break;
         }
     }
@@ -93,4 +98,5 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream) {
 
     return read;
 }
+
 
