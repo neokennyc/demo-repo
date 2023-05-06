@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define INITIAL_BUFFER_SIZE 1024
 
@@ -34,7 +35,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream) {
     static size_t buffer_size = 0;
     static size_t buffer_pos = 0;
 
-    ssize_t read = 0;
+    ssize_t reads = 0;
 
     if (lineptr == NULL || n == NULL) {
         return -1;
@@ -69,7 +70,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream) {
 
         // Check if we have reached the end of the stream
         if (bytes_read == 0) {
-            if (read == 0) {
+            if (reads == 0) {
                 return -1;
             } else {
                 break;
@@ -77,7 +78,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream) {
         }
 
         // Update the number of bytes read and the buffer position
-        read += bytes_read;
+        reads += bytes_read;
         buffer_pos += bytes_read;
 
         // Check if we have reached the end of the line
@@ -96,7 +97,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream) {
     // Reset the buffer position for the next call
     buffer_pos = 0;
 
-    return read;
+    return reads;
 }
 
 
