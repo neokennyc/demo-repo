@@ -41,6 +41,35 @@ struct env_var {
 };
 
 static struct env_var *env_list = NULL;
+/**
+ * struct stdinfo - ====
+ * @arg: a string generated from getline containing arguements
+ * @argv: an array of strings generated from arg
+ * @path: a string path for the current command
+ * @argc: the argument count
+ *@environ: +====
+ *@status: =+====
+ */
+typedef struct stdinfo
+{
+	char *arg;
+	char **argv;
+	char *path;
+	int argc;
+	char **environ;
+	int status;
+} stdinfo_t;
+
+#define STD_INIT \
+    { \
+        NULL, /* ptr1 */ \
+        NULL, /* ptr2 */ \
+        NULL, /* ptr3 */ \
+        0,    /* val */ \
+        NULL, /* ptr4 */ \
+        0     /* val2 */ \
+    }
+
 
 // Prototype for the custom getline function
 void interactive_shell(void);
