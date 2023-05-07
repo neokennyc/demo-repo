@@ -1,8 +1,28 @@
 #ifndef _SHELL_H
 #define _SHELL_H
 
-#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <limits.h>
+#include <fcntl.h>
+#include <errno.h>
+
+/**
+ * struct command - contains a shell commands  string and related function
+ * @type: the  command 
+ * @func: the function call
+ */
+typedef struct command
+{
+	char *type;
+	int (*func)(info_t *);
+} command_table;
+
 
 #define MAX_COMMAND_LENGTH 1024
 
