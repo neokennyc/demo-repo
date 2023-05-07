@@ -6,13 +6,23 @@
 
 #define MAX_COMMAND_LENGTH 1024
 
+extern char **environ;
+
+typedef struct liststr
+{
+    int num;
+    char *str;
+    struct liststr *next;
+} list_t;
+
 struct env_var {
     char *name;
     char *value;
     struct env_var *next;
 };
 
-static struct env_var *env_list = NULL;
+static struct env_var *env_list = *environ;
+
 
 // Prototype for the custom getline function
 void interactive_shell(void);
