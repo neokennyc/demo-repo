@@ -3,6 +3,8 @@
 #include "shell.h"
 
 int main(void) {
+
+	list_t *head = NULL;                                                                if (populate_env_list(&head) == -1) {         return EXIT_FAILURE;                  }
     // Set environment variables
     _setenv("VAR1", "Value1", 1);
     _setenv("VAR2", "Value2", 1);

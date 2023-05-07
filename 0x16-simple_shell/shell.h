@@ -9,8 +9,7 @@
 extern char **environ;
 
 typedef struct liststr
-{
-    int num;
+{                                             int num;
     char *str;
     struct liststr *next;
 } list_t;
@@ -21,11 +20,11 @@ struct env_var {
     struct env_var *next;
 };
 
-static struct env_var *env_list = *environ;
-
+static struct env_var *env_list = NULL;
 
 // Prototype for the custom getline function
 void interactive_shell(void);
+int populate_env_list(list_t **head);
 size_t printenv(void);
 char *_getenv(const char *name);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);

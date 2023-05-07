@@ -1,14 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-
-extern char **environ;
-
-typedef struct liststr
-{
-    int num;
-    char *str;
-    struct liststr *next;
-} list_t;
+#include "shell.h"
 
 /**
  * add_node_end - Adds a node to the end of a linked list
@@ -75,19 +67,4 @@ void free_env_list(list_t *head)
     }
 }
 
-
-int main(void)
-{
-    list_t *head = NULL;
-
-    if (populate_env_list(&head) == -1) {
-        return EXIT_FAILURE;
-    }
-
-    // Use the linked list here
-
-    free_env_list(head);
-
-    return EXIT_SUCCESS;
-}
 
