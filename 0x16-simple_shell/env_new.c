@@ -132,6 +132,87 @@ node = node->next;
 return -1;
 }
 
+/**
+ * _unsetenv - Removes an environment variable.
+ * @head: A pointer to a pointer to the head of the environment linked list.
+ * @name: The name of the variable to be removed.
+ *
+ * Return: 1 if the variable is removed, 0 otherwise.
+ */
+int _unsetenv(env_var_node_t **head, const char *name)
+{
+    env_var_node_t *node = *head;
+    int removed = 0;
+
+    while (node != NULL) {
+        if (strcmp(node->name, name) == 0) {
+            env_var_node_t *next_node = node->next;
+            delete_node_env(head, node);
+            node = next_node;
+            removed = 1;
+            remove_env_var(name); // remove from source
+        } else {
+            node = node->next;
+        }
+    }
+
+    return removed;
+}
+
+
+/**
+ * remove_env_var - Remove an environment variable by name from the linked list
+ *                  and the source.
+ * @head: A pointer to the head of the linked list.
+ * @name: The name of the environment variable to remove.
+ *
+ * Return: 1 if the variable was removed, 0 otherwise.
+ */
+int remove_env_var(env_var_node_t **head, const char *name)
+{
+    env_var_node_t *prev = NULL, *curr = *head;
+    int removed = 0;
+
+    while (curr != NULL) {
+        if (strcmp(curr->name, name) == 0) {
+            if (prev == NULL) {
+                /* Head node needs to be removed */
+                *head = curr->next;
+            } else {
+                prev->next = curr->next;
+            }
+
+            /* Remove the environment variable from the source */
+            char *unset_cmd = malloc(strlen(name) + 8);
+            if (unset_cmd != NULL) {
+                sprintf(unset_cmd, "unset %s", name);
+                system(unset_cmd);
+                free(unset_cmd);
+            }
+
+            /* Free the memory used by the node */
+            free(curr->name);
+            free(curr->value);
+            free(curr);
+
+            /* Set the removed flag and exit the loop */
+            removed = 1;
+            break;
+        }
+
+        prev = curr;
+        curr = curr->next;
+    }
+
+    return removed;
+}
+
+
+
+
+
+
+
 
 int main(int argc, char argv[]) {
 /* Populate the environment variable list */
