@@ -20,8 +20,8 @@ void execute_command(char* command) {
     }
     pid_t pid = fork();
     if (pid == 0) {
-        if (execve(arguments[0], arguments, NULL) == -1) {
-            perror("execve failed");
+        if (execvp(arguments[0], arguments) == -1) {
+            perror("execvp failed");
             exit(EXIT_FAILURE);
         }
     } else if (pid < 0) {
@@ -29,8 +29,8 @@ void execute_command(char* command) {
         exit(EXIT_FAILURE);
     } else {
         int status;
-        if (wait(&status) == -1) {
-            perror("wait failed");
+        if (waitpid(pid, &status, 0) == -1) {
+            perror("waitpid failed");
             exit(EXIT_FAILURE);
         }
     }
@@ -67,61 +67,37 @@ void interactive_mode() {
     }
 }
 
-void non_interactive_mode(int argc, char* argv[]) {
+void non_interactive_mode(char* script_file_name) {
     char user_input[MAX_COMMAND_LENGTH];
     char* commands[MAX_ARGUMENTS];
     int num_commands = 0;
     FILE* script_file = NULL;
     
-    for (int i = 1; i < argc; i++) {
-        num_commands = 0;
-        commands[num_commands] = strtok(argv[i], " \t\n");
-        while (commands[num_commands] != NULL) {
-            num_commands++;
-            commands[num_commands] = strtok(NULL, " \t\n");
-        }
-        execute_commands(commands);
+    num_commands = 0;
+    commands[num_commands] = strtok(script_file_name, " \t\n");
+    while (commands[num_commands] != NULL) {
+        num_commands++;
+        commands[num_commands] = strtok(NULL, " \t\n");
     }
+    execute_commands(commands);
     
-    for (int i = 1; i < argc; i++) {
-        char* command = argv[i];
-        char* token = strtok(command, ";");
-        while (token != NULL) {
-            num_commands = 0;
-            commands[num_commands] = strtok(token, " \t\n");
-            while (commands[num_commands] != NULL) {
-                num_commands++;
-                commands[num_commands] = strtok(NULL, " \t\n");
-            }
-            execute_commands(commands);
-            token = strtok(NULL, ";");
-        }
-    }
-    
-    script_file = fopen(argv[1], "r");
+    script_file = fopen(script_file_name, "r");
     if (script_file == NULL) {
         perror("Error opening script file");
         exit(EXIT_FAILURE);
     }
     
     while (fgets(user_input, MAX_COMMAND_LENGTH, script_file) != NULL) {
-        char* token = strtok(user_input, ";");
-        while (token != NULL) {
-            num_commands = 0;
-            commands[num_commands] = strtok(token, " \t\n");
-            while (commands[num_commands] != NULL) {
-                num_commands++;
-                commands[num_commands] = strtok(NULL, " \t\n");
-            }
-            execute_commands(commands);
-            token = strtok(NULL, ";");
+        num_commands = 0;
+        commands[num_commands] = strtok(user_input, ";\n");
+        while (commands[num_commands] != NULL) {
+            num_commands++;
+            commands[num_commands] = strtok(NULL, ";\n");
         }
+        execute_commands(commands);
     }
     fclose(script_file);
 }
-
-
-
 
 int main(int argc, char* argv[]) {
     if (argc == 1) {
