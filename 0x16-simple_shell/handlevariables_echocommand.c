@@ -9,8 +9,20 @@ void handle_echo_command(char *command) {
     char *args[20];
     int i = 0;
     int status;
+if (command[strlen(command) - 1] == '"' ||
+		command[strlen(command) - 1]  == '\''){
+	command[strlen(command) - 1] = '\0';
+	command++;
+	args[i++] = "/bin/bash";
+	args[i++] = "-c";
+	char *echo_command = malloc(strlen(command) + 6);
+	strcpy(echo_command, "echo ");
+	strcat(echo_command, command); 
+	args[i++] = echo_command;
+}
+else{
     args[i++] = "/bin/echo";  // Path to the echo command executable
-
+    }
     char *token = strtok(command, " ");
     while (token != NULL) {
         if (strcmp(token, "$$") == 0) {
