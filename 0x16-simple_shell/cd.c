@@ -7,13 +7,15 @@
 
 #define MAX_COMMAND_LENGTH 1024
 
+extern char **environ;  // Declare the external environment variable list
+
 char *_getenv(const char* name);
 int _setenv(const char *name, const char *value, int overwrite);
 
 void change_directory(const char *path) {
     char current_dir[MAX_COMMAND_LENGTH];
     char new_dir[MAX_COMMAND_LENGTH];
-int i;
+
     if (getcwd(current_dir, sizeof(current_dir)) == NULL) {
         perror("getcwd");
         return;
@@ -22,7 +24,7 @@ int i;
     if (chdir(path) == -1){
         perror("chdir");
         return;
-    } 
+    }
 
     if (getcwd(new_dir, sizeof(new_dir)) == NULL) {
         perror("getcwd");
@@ -30,10 +32,9 @@ int i;
     }
 
     // Update PWD and OLDPWD environment variables
-i = _setenv("OLDPWD", current_dir, 1);
-printf("Changed OLD directory to: %s %d\n", current_dir, i);
+    _setenv("OLDPWD", current_dir, 1);
+    _setenv("PWD", new_dir, 1);
     printf("Changed directory to: %s\n", new_dir);
-_setenv("PWD", new_dir, 1);
 }
 
 int execute_command(char *command) {
@@ -50,9 +51,9 @@ int execute_command(char *command) {
 
     if (strcmp(args[0], "cd") == 0) {
         if (args[1] == NULL) {
-            change_directory(getenv("HOME"));
+            change_directory(_getenv("HOME"));
         } else if (strcmp(args[1], "-") == 0) {
-            change_directory(getenv("OLDPWD"));
+            change_directory(_getenv("OLDPWD"));
         } else {
             change_directory(args[1]);
         }
@@ -74,22 +75,21 @@ int execute_command(char *command) {
     return 1;
 }
 
-int main() {
-    char command[MAX_COMMAND_LENGTH];
+char *_getenv(const char* name) {
+    int i;
+    size_t len = strlen(name);
 
-    while (1) {
-        printf("$ ");
-        fgets(command, sizeof(command), stdin);
-
-        if (strcmp(command, "exit\n") == 0) {
-            break;
-        }
-
-        if (execute_command(command) == 0) {
-            printf("Invalid command\n");
+    for (i = 0; environ[i] != NULL; i++) {
+        if (strncmp(environ[i], name, len) == 0 && environ[i][len] == '=') {
+            return &environ[i][len+1];
         }
     }
 
-    return 0;
+    return NULL;
 }
 
+int main()
+{
+char command[MAX_COMMAND_LENGTH];                                                   while (1) {
+        printf("$ ");                             fgets(command, sizeof(command), stdin);                                                                                       if (strcmp(command, "exit\n") == 0) {                                                   break;                                }                                                                                   if (execute_command(command) == 0) {                                                    printf("Invalid command\n");          }                                     }                                                                                   return 0;
+	}
