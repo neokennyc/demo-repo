@@ -1,8 +1,0 @@
-alias AI=''chat1''
-alias AI2='chat2'
-alias AI3='chat3'
-alias AI4='chat4'
-alias AI5='chat5'
-alias AI6='chat7'
-alias ='chat8'
-alias AI8='chat8'

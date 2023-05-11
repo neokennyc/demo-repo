@@ -13,7 +13,7 @@ int _setenv(const char *name, const char *value, int overwrite);
 void change_directory(const char *path) {
     char current_dir[MAX_COMMAND_LENGTH];
     char new_dir[MAX_COMMAND_LENGTH];
-int i;
+
     if (getcwd(current_dir, sizeof(current_dir)) == NULL) {
         perror("getcwd");
         return;
@@ -30,10 +30,9 @@ int i;
     }
 
     // Update PWD and OLDPWD environment variables
-i = _setenv("OLDPWD", current_dir, 1);
-printf("Changed OLD directory to: %s %d\n", current_dir, i);
+    setenv("OLDPWD", current_dir, 1);
+    setenv("PWD", new_dir, 1);
     printf("Changed directory to: %s\n", new_dir);
-_setenv("PWD", new_dir, 1);
 }
 
 int execute_command(char *command) {
@@ -50,9 +49,9 @@ int execute_command(char *command) {
 
     if (strcmp(args[0], "cd") == 0) {
         if (args[1] == NULL) {
-            change_directory(getenv("HOME"));
+            change_directory(_getenv("HOME"));
         } else if (strcmp(args[1], "-") == 0) {
-            change_directory(getenv("OLDPWD"));
+            change_directory(_getenv("OLDPWD"));
         } else {
             change_directory(args[1]);
         }
