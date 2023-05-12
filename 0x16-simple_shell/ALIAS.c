@@ -139,20 +139,50 @@ void process_command(const char* command) {
     }
 }
 
-int convertStringToArray(char* inputString, char** commandArray) {
-    // Trim leading and trailing spaces
-    char* trimmedString = strtok(inputString, " \t\n");
-    
-    // Split the string into individual elements
-    char* token = strtok(trimmedString, " \t\n");
-    int count = 0;
-    while (token != NULL) {
-        commandArray[count] = strdup(token);
-        count++;
-        token = strtok(NULL, " \t\n");
-    }
-    
-    return count;
+
+int convertStringToArray(char* inputString
+, char*** commandArray) {
+    const char* delimiter = " \t\n";
+    const char* keyword = "alias";        
+char* token = strtok(inputString, delimiter); 
+if (strncmp(token, keyword, strlen(keyword)) != 0) {
+        return 0;  
+	// Input string does not start with the keyword "alias" 
+	}
+                                              int count = 0;
+    while ((token = strtok(NULL, delimiter)) != NULL) {                                     int length = strlen(keyword) + strlen(token) + 1;
+(*commandArray)[count] = malloc(length + 1);  // Allocate memory for the command 
+snprintf((*commandArray)[count], length + 1, "%s %s", keyword, token);              count++;                              }                                     
+    return count;                         }
+void handlemultiReg(char **command)
+{
+	int i = 0;
+	int equals = 1;
+	while(*command)
+	{
+if (strncmp(*command, "alias ", 6) == 0 && strlen(*command) > 6 && equals == 0) {
+            char name[MAX_ALIAS_NAME];
+            if (sscanf(*command, "alias %s", name) == 1) {
+                process_command(*command);
+            } else {
+                printf("Invalid command format. Usage: alias name\n");
+            }
+        } else if (strncmp(*command, "alias ", 6) == 0 && strlen(*command) > 7) {
+            char name[MAX_ALIAS_NAME];
+            char value[MAX_ALIAS_VALUE];
+            if (sscanf(*command, "alias %[^=]=\'%[^\']\'", name, value) == 2) {
+                update_alias(name, value); // Update the alias
+            } else {
+                printf("Invalid alias format. Use: alias name='value'\n");
+            }
+        } else if (strcmp(*command, "exit") == 0) {
+            break;
+        } else {
+            printf("Unknown command: %s\n", *command);
+        }
+
+command++;
+	}
 }
 
 int main() {
@@ -176,6 +206,8 @@ int main() {
 //handle multi registrstion of alias
 if (equals >= 2)
 {
+n = convertStringToArray(command, &commandArray);
+handlemultiReg(commandArray);
 }
 else
 {
@@ -185,10 +217,11 @@ else
         } else if (strncmp(command, "alias ", 6) == 0 && strlen(command) > 6 && equals == 0) {
             char name[MAX_ALIAS_NAME];
             if (sscanf(command, "alias %s", name) == 1) {
-                process_command(command);
-            } else {
-                printf("Invalid command format. Usage: alias name\n");
-            }
+		    process_command(command);
+            } 
+	    else{
+	printf("Invalid command format. Usage: alias name\n");
+          }
         } else if (strncmp(command, "alias ", 6) == 0 && strlen(command) > 7) {
             char name[MAX_ALIAS_NAME];
             char value[MAX_ALIAS_VALUE];
