@@ -6,6 +6,8 @@
 /*Function to load aliases from file*/
 void load_aliases();
 void retrieve_alias(char* name);
+void addaliasF(char *filename, char *name, char *value);
+void addaliasF(char *filename, char *name, char *value);
 void load_aliases() 
 {
 	char buffer[BUFFER_SIZE];
@@ -36,7 +38,108 @@ void load_aliases()
 close(fileDescriptor);
 }
 
-void addalias(char *filename, char *name, char *value)
+//int find_alias(char *name)
+void update_alias(char *name, char *value)
+{
+	char alias_name[MAX_ALIAS_NAME];
+	char alias_value[MAX_ALIAS_VALUE];
+	char *equalsSign, *quoteEnd, *quoteStart;
+	char buffer[BUFFER_SIZE];
+	ssize_t bytesRead;
+	int updated = 0;
+	char *temp = "temp.txt";
+	int found = 0;
+	char line[BUFFER_SIZE];
+	int i, fileDescriptor, lineLength = 0;
+	fileDescriptor = open(ALIAS_FILE, O_RDONLY);
+	if (fileDescriptor == -1)
+	{
+		perror("Error opening aliases file");
+		return;
+	}
+
+while ((bytesRead = read(fileDescriptor, buffer, BUFFER_SIZE)) > 0)
+{
+	for (i = 0; i < bytesRead; i++) 
+	{ 
+	if (buffer[i] == '\n') {
+		line[lineLength] = '\0'; 
+		/* Null-terminate the line*/ 
+		if (_strstr(line, "alias") != NULL) 
+		{
+        equalsSign = _strchr(line, '=');
+            if (equalsSign != NULL) {
+	quoteStart = _strchr(line, '\'');
+        quoteEnd = _strrchr(line, '\'');
+
+                if (quoteStart != NULL && quoteEnd != NULL && quoteEnd > quoteStart) {
+             _strncpy(alias_name, line + 6, _strlen(name));
+		alias_name[_strlen(name)] = '\0';
+                    _strncpy(alias_value, quoteStart + 1, quoteEnd - quoteStart - 1);
+
+                    alias_value[quoteEnd - quoteStart - 1] = '\0';
+
+        /* Perform the comparison and write to stdout*/
+                    if (_strcmp(alias_name, name) == 0) {
+                     //   _writef("%s='%s'\n", alias_name, alias_value);
+addaliasF(temp, name, value); 
+updated = 1;
+		    }
+		else {
+addaliasnonF(temp, line);
+
+		}
+                }
+            }
+        }
+lineLength = 0;
+	} else {
+		line[lineLength] = buffer[i];
+		lineLength++;
+	}
+	}
+}
+/*============================*/
+// If the alias was not found, add it as a new entry 
+if (!updated) {                             /*  fprintf(temp, "alias %s='%s'\n", name, value);*/ 
+addaliasF(temp, name, value);                 }
+
+close(fileDescriptor);
+if (rename("temp.txt", ALIAS_FILE) != 0) 
+{
+	perror("Error renaming temporary file");
+	return; 
+}
+}
+
+
+
+
+void addaliasnonF(char *filename, char *line)
+{
+    int fileDescriptor; 
+    char buffer[1024];
+    int size = 0;
+
+    /*Create the formatted string manually*/
+    size += write(1, line, strlen(line));
+    /*Open the file in all mode*/
+    fileDescriptor = open(filename, O_RDONLY | O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (fileDescriptor < 0) {
+        perror("Error opening the file.\n");
+        return;
+    }
+    
+    /*Write the formatted string to the file*/
+    write(fileDescriptor, line, strlen(line));
+   // write(fileDescriptor, "'\n", 2);
+
+    /*Close the file*/
+    close(fileDescriptor);
+
+}
+
+void addaliasF(char *filename, char *name, char *value)
 {
     int fileDescriptor; 
     char buffer[1024];
@@ -65,64 +168,78 @@ void addalias(char *filename, char *name, char *value)
 
     /*Close the file*/
     close(fileDescriptor);
-
-
-
 }
 
-void update_alias(char *name, char *value)
-{
-    FILE* file = fopen(ALIAS_FILE, "r");
-    if (file == NULL) {
-        perror("Error opening aliases file");
-        return;
-    }
+//void update_alias(char *name, char *value)
+//{
+//  FILE* file = fopen(ALIAS_FILE, "a+");
+  //  if (file == NULL) {
+   //     perror("Error opening aliases file");
+     //   return;
+   // }
 
     // Create a temporary file to write the updated aliases
-    FILE* temp = fopen("temp.txt", "w");
-    if (temp == NULL) {
-        perror("Error creating temporary file");
-        fclose(file);
-        return;
-    }
+   // FILE* temp = fopen("temp.txt", "w");
+   // if (temp == NULL) {
+     //   perror("Error creating temporary file");
+       // fclose(file);
+      //  return;
+   // }
+//char *temp = "temp.txt";
+//    char line[MAX_ALIAS_NAME + MAX_ALIAS_VALUE + 12];  // +12 for "alias name='value'\n"
+  //  int updated = 0; // Flag to indicate if the alias has been updated
 
-    char line[MAX_ALIAS_NAME + MAX_ALIAS_VALUE + 12];  // +12 for "alias name='value'\n"
-    int updated = 0; // Flag to indicate if the alias has been updated
+    
 
-    while (fgets(line, sizeof(line), file) != NULL) {
-        char alias_name[MAX_ALIAS_NAME];
-        char alias_value[MAX_ALIAS_VALUE];
-        if (sscanf(line, "alias %[^=]=\'%[^\']\'", alias_name, alias_value) == 2) {
-            if (_strcmp(alias_name, name) == 0) {
+    //while (fgets(line, sizeof(line), file) != NULL) {
+      //  char alias_name[MAX_ALIAS_NAME];
+        //char alias_value[MAX_ALIAS_VALUE];
+        //if (sscanf(line, "alias %[^=]=\'%[^\']\'", alias_name, alias_value) == 2) {
+            
+
+
+
+
+
+
+
+
+
+
+//		if (_strcmp(alias_name, name) == 0) {
                 // Alias with the same name found, update the value
              /*   fprintf(temp, "alias %s='%s'\n", name, value);*/
-		addalias(temp, name, value);
-                updated = 1;
-            } else {
+//		addaliasF(temp, name, value);
+  //              updated = 1;
+    //        } else {
                 // Write the existing alias to the temporary file
-                fprintf(temp, "%s", line);
-            }
-        } else {
+              //  fprintf(temp, "%s", line);
+//		addaliasnonF(temp, line);
+  //          }
+    //    } else {
             // Write any non-alias lines to the temporary file
-            fprintf(temp, "%s", line);
-        }
-    }
+           // fprintf(temp, "%s", line);
+	//addaliasnonF(temp, line);
+      //  }
+   
+
+//}
 
     // If the alias was not found, add it as a new entry
-    if (!updated) {
+  //  if (!updated) {
       /*  fprintf(temp, "alias %s='%s'\n", name, value);*/
-addalias(temp, name, value);
-    }
+//addaliasF(temp, name, value);
+//    }
 
-    fclose(file);
-    fclose(temp);
+  // fclose(file);
+  //  fclose(temp);
 
     // Rename the temporary file to the original file
-    if (rename("temp.txt", ALIAS_FILE) != 0) {
-        perror("Error renaming temporary file");
-        return;
-    }
-}
+  //  if (rename("temp.txt", ALIAS_FILE) != 0) {
+    //    perror("Error renaming temporary file");
+      //  return;
+  //  }
+//}
 
 
 // Function to save an alias to file
