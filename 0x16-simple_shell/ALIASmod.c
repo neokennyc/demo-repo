@@ -36,8 +36,35 @@ void load_aliases()
 close(fileDescriptor);
 }
 
-void appendalias(char *filename, char *name, char *value)
+void addalias(char *filename, char *name, char *value)
 {
+    int fileDescriptor; 
+    char buffer[1024];
+    int size = 0;
+    
+    /*Create the formatted string manually*/
+    size += write(1, "alias ", 6);
+    size += write(1, name, strlen(name));
+    size += write(1, "='", 2);
+    size += write(1, value, strlen(value));
+    size += write(1, "'\n", 2);
+
+    /*Open the file in all mode*/
+    fileDescriptor = open(filename, O_RDONLY | O_WRONLY | O_CREAT | O_APPEND, 0644);
+    if (fileDescriptor < 0) {
+        _writef("Error opening the file.\n");
+        return;
+    }
+    
+    /*Write the formatted string to the file*/
+    write(fileDescriptor, "alias ", 6);
+    write(fileDescriptor, name, strlen(name));
+    write(fileDescriptor, "='", 2);
+    write(fileDescriptor, value, strlen(value));
+    write(fileDescriptor, "'\n", 2);
+
+    /*Close the file*/
+    close(fileDescriptor);
 
 
 
@@ -68,7 +95,8 @@ void update_alias(char *name, char *value)
         if (sscanf(line, "alias %[^=]=\'%[^\']\'", alias_name, alias_value) == 2) {
             if (_strcmp(alias_name, name) == 0) {
                 // Alias with the same name found, update the value
-                fprintf(temp, "alias %s='%s'\n", name, value);
+             /*   fprintf(temp, "alias %s='%s'\n", name, value);*/
+		addalias(temp, name, value);
                 updated = 1;
             } else {
                 // Write the existing alias to the temporary file
@@ -82,7 +110,8 @@ void update_alias(char *name, char *value)
 
     // If the alias was not found, add it as a new entry
     if (!updated) {
-        fprintf(temp, "alias %s='%s'\n", name, value);
+      /*  fprintf(temp, "alias %s='%s'\n", name, value);*/
+addalias(temp, name, value);
     }
 
     fclose(file);
