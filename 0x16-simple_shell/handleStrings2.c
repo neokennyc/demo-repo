@@ -1,26 +1,42 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 /**
- * _strchr
- * @str: ====
- * @ch: ====
- * Return: =====
+ * is_delim - checks if character is a delimeter
+ * @c: the char to check
+ * @delim: the delimeter string
+ * Return: 1 if true, 0 if false
  */
-char *_strchr(char *str, char ch) {
-    while (*str != '\0') {
-        if (*str == ch) {
-            return ((char*)str);
-        }
-        str++;
-    }
+int is_delim(char c, char *delim)
+{
+	while (*delim)
+		if (*delim++ == c)
+			return (1);
+	return (0);
+}
 
-    if (ch == '\0') {
-        return (char*)str;
-    }
+/**
+ * _strchr - Locates a character in a string.
+ * @s: The string to be searched.
+ * @c: The character to be located.
+ *
+ * Return: If c is found - a pointer to the first occurence.
+ * If c is not found - NULL.
+ */
 
-    return (NULL);
+char *_strchr(char *s, char c)
+{
+	int index;
+
+	for (index = 0; s[index] >= '\0'; index++)
+	{
+		if (s[index] == c)
+			return (s + index);
+	}
+
+	return (NULL);
 }
 /**
  * _strtok - =====
@@ -28,35 +44,45 @@ char *_strchr(char *str, char ch) {
  * @delimeters: ======
  * Return: =======
  */
-char *_strtok(char *str, char *delimiters) {
-    static char* token = NULL;
-    static char* rest = NULL;
-    bool found = false;
+char **_strtow(char *str, char *d)
+{
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-    if (str != NULL) {
-        rest = str;
-    }
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+	if (!d)
+		d = " ";
+	for (i = 0; str[i] != '\0'; i++)
+		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
+			numwords++;
 
-    if (rest == NULL || *rest == '\0') {
-        return NULL;
-    }
-
-    token = rest;
-    while (*rest != '\0') {
-        if (_strchr(delimiters, *rest) != NULL) {
-            *rest = '\0';
-            rest++;
-            found = true;
-            break;
-        }
-        rest++;
-    }
-
-    if (!found) {
-        rest = NULL;
-    }
-
-    return (token);
+	if (numwords == 0)
+		return (NULL);
+	s = malloc((1 + numwords) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (i = 0, j = 0; j < numwords; j++)
+	{
+		while (is_delim(str[i], d))
+			i++;
+		k = 0;
+		while (!is_delim(str[i + k], d) && str[i + k])
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
+	}
+	s[j] = NULL;
+	return (s);
 }
 
 

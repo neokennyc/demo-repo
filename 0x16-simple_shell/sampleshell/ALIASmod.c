@@ -2,44 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "shell.h"
-
-void removeExtraSpaces(char* str) 
-{
-    int i, j;
-    int len = strlen(str);
-
-    /*Remove leading spaces*/
-    while (len > 0 && str[0] == ' ') 
-    {
-        for (i = 0; i < len; i++) {
-            str[i] = str[i + 1];
-        }
-        len--;
-    }
-
-    /*Remove extra spaces*/
-    for (i = 0; i < len - 1; i++) 
-    {
-        if (str[i] == ' ' && str[i + 1] == ' ') {
-            for (j = i; j < len; j++) {
-                str[j] = str[j + 1];
-            }
-            len--;
-            i--;
-        }
-    }
-
-    /*Remove trailing spaces */
-    while (len > 0 && str[len - 1] == ' ') {
-        str[len - 1] = '\0';
-        len--;
-    }
-}
-
-
-
-
-
+#define BUFFER_SIZE 1024
 /*Function to load aliases from file*/
 void load_aliases();
 void retrieve_alias(char* name);
@@ -171,7 +134,7 @@ void retrieve_alias(char *name)
 	char buffer[BUFFER_SIZE];
 	ssize_t bytesRead;
 	char line[BUFFER_SIZE];
-	int seen, i, fileDescriptor, lineLength = 0;
+	int i, fileDescriptor, lineLength = 0;
 	fileDescriptor = open(ALIAS_FILE, O_RDONLY);
 	if (fileDescriptor == -1)
 	{
@@ -194,17 +157,15 @@ while ((bytesRead = read(fileDescriptor, buffer, BUFFER_SIZE)) > 0)
         quoteEnd = _strrchr(line, '\'');
 
                 if (quoteStart != NULL && quoteEnd != NULL && quoteEnd > quoteStart) {
-        //            _strncpy(alias_name, line + 6, _strlen(name));
-	//	alias_name[_strlen(name)] = '\0';
-strncpy(alias_name, line + 6, equalsSign - (line + 6));
-	alias_name[equalsSign - (line + 6)] = '\0';
+                    _strncpy(alias_name, line + 6, _strlen(name));
+		alias_name[_strlen(name)] = '\0';
                     _strncpy(alias_value, quoteStart + 1, quoteEnd - quoteStart - 1);
-		    alias_value[quoteEnd - quoteStart - 1] = '\0';
+
+                    alias_value[quoteEnd - quoteStart - 1] = '\0';
 
         /* Perform the comparison and write to stdout*/
-                    if (strcmp(alias_name, name) == 0) {
+                    if (_strcmp(alias_name, name) == 0) {
                         _writef("%s='%s'\n", alias_name, alias_value);
-seen = 1;
                     }
                 }
             }
@@ -216,9 +177,6 @@ lineLength = 0;
 	}
 	}
 }
-if (seen != 1)
-	_writef("bash: alias: %s: not foubd\n", name);
-	
 /*============================*/
 close(fileDescriptor);
 }
@@ -270,9 +228,6 @@ void handlemultiReg(char **command)
 {
 	int i = 0;
 	int equals = 1;
-	char alias_name[78];
-	char alias_value[78];
-	char *equalsSign, *quoteEnd, *quoteStart;
 	while(*command)
 	{
 if (_strncmp(*command, "alias ", 6) == 0 && _strlen(*command) > 6 && equals == 0) {
@@ -283,27 +238,11 @@ if (_strncmp(*command, "alias ", 6) == 0 && _strlen(*command) > 6 && equals == 0
             //    _writef("Invalid command format. Usage: alias name\n");
           //  }
         } else if (_strncmp(*command, "alias ", 6) == 0 && _strlen(*command) > 7) {
-   //         if (sscanf(*command, "alias %[^=]=\'%[^\']\'", name, value) == 2) {
-    if (strstr(*command, "alias") != NULL)
-	  {
-	equalsSign = strchr(*command, '=');
-	if (equalsSign != NULL) 
-	{
-	quoteStart = strchr(*command, '\'');
-	quoteEnd = strrchr(*command, '\''); 
-	if (quoteStart != NULL && quoteEnd != NULL && quoteEnd > quoteStart)
-	{
-	strncpy(alias_name, *command + 6, equalsSign - (*command + 6));
-	alias_name[equalsSign - (*command + 6)] = '\0';
-	strncpy(alias_value, quoteStart + 1, quoteEnd - quoteStart - 1); 
-	alias_value[quoteEnd - quoteStart - 1] = '\0';
-	update_alias(alias_name, alias_value); // Update the alias
-	}
-	}      
-		// Update the alias
-	}
-    else 
-    {
+            char name[MAX_ALIAS_NAME];
+            char value[MAX_ALIAS_VALUE];
+            if (sscanf(*command, "alias %[^=]=\'%[^\']\'", name, value) == 2) {
+                update_alias(name, value); // Update the alias
+            } else {
                 _writef("Invalid alias format. Use: alias name='value'\n");
             }
         } else if (_strcmp(*command, "exit") == 0) {
@@ -319,9 +258,6 @@ command++;
 int main() {
     char command[MAX_ALIAS_NAME + MAX_ALIAS_VALUE + 12];  // +12 for "alias name='value'\n"
 
-    char alias_name[78];
-    char alias_value[78];
-    char *equalsSign, *quoteEnd, *quoteStart;
     while (1) {
         _writef("$ ");
         fgets(command, sizeof(command), stdin);
@@ -345,7 +281,7 @@ handlemultiReg(commandArray);
 }
 else
 {
-	removeExtraSpaces(command);
+
         if (_strcmp(command, "alias") == 0) {
             load_aliases();
         } else if (_strncmp(command, "alias ", 6) == 0 && _strlen(command) > 6 && equals == 0) {
@@ -356,25 +292,11 @@ else
 //	    else{
 //	_writef("Invalid command format. Usage: alias name\n");
   //        }
-        } else if (_strncmp(command, "alias ", 6) == 0 && _strlen(command) > 7) 
-	{
-          //  if (sscanf(command, "alias %[^=]=\'%[^\']\'", name, value) == 2) {
-	    if (strstr(command, "alias") != NULL)
-	  {
-	equalsSign = strchr(command, '=');
-	if (equalsSign != NULL) 
-	{
-	quoteStart = strchr(command, '\'');
-	quoteEnd = strrchr(command, '\''); 
-	if (quoteStart != NULL && quoteEnd != NULL && quoteEnd > quoteStart)
-	{
-	strncpy(alias_name, command + 6, equalsSign - (command + 6));
-	alias_name[equalsSign - (command + 6)] = '\0';
-	strncpy(alias_value, quoteStart + 1, quoteEnd - quoteStart - 1); 
-	alias_value[quoteEnd - quoteStart - 1] = '\0';
-	update_alias(alias_name, alias_value); // Update the alias
-	}
-	}
+        } else if (_strncmp(command, "alias ", 6) == 0 && _strlen(command) > 7) {
+            char name[MAX_ALIAS_NAME];
+            char value[MAX_ALIAS_VALUE];
+            if (sscanf(command, "alias %[^=]=\'%[^\']\'", name, value) == 2) {
+                update_alias(name, value); // Update the alias
             } else {
                 _writef("Invalid alias format. Use: alias name='value'\n");
             }
