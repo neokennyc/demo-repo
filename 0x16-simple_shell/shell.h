@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
+
 /**
  * struct command - contains a shell commands  string and related function
  * @type: the  command 
@@ -20,12 +21,16 @@
 typedef struct command
 {
 	char *type;
-	int (*func)(info_t *);
+/*	int (*func)(info_t *);*/
 } command_table;
 
 
 #define MAX_COMMAND_LENGTH 1024
-
+#define MAX_ALIAS_NAME 50
+#define BUFFER_SIZE 1024
+#define MAX_ALIAS_VALUE 100
+#define ALIAS_FILE "aliases.txt"
+#define MAX_NUM_ARGS 100
 extern char **environ;
 
 typedef struct liststr
@@ -72,6 +77,20 @@ typedef struct stdinfo
 
 
 // Prototype for the custom getline function
+char *_strrchr(char *str, int character);
+char *_strstr(char *haystack, char *needle);
+char *_strncpy(char *dest, char *src, int n);
+int _strncmp(char *s1, char *s2, size_t n);
+char *_strdup(char *str);
+char *_strstr(char *haystack, char *needle);
+int is_delim(char c, char *delim);
+char *_strchr(char *str, char ch);
+char *_strtok(char *str, char *delimiters);
+char **_strtow(char *str, char *d);
+void _writef(const char *format, ...);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+int _strcmp(char *s1, char *s2);
+int _strlen(char *s);
 void interactive_shell(void);
 int populate_env_list(list_t **head);
 size_t printenv(void);
