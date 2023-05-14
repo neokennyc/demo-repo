@@ -1,5 +1,4 @@
 #include "main.h"
-#include <stdio.h>
 #include <ctype.h>
 
 const char * isPlus(const char * c, char sp, va_list arg)
@@ -26,7 +25,7 @@ if (*c == '-')
 	else
 		writeout('+');
 }
-return (c--);
+return (c);
 }
 
 

@@ -1,11 +1,10 @@
 #include "main.h"
+#include <stdio.h>
 
 int output_handle(va_list arg)
-{	
-	char h= va_arg(arg, int);
-	if (h)
-		return (0);
+{
+	(void)arg;
 	/*8(void)f;*/
-	my_putchar('%');
+	writeout('%');
 	return(1);
 }

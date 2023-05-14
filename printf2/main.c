@@ -5,11 +5,8 @@
 int main(void)
 {
 
-	_printf("%+--+--d\n", 78);
-	printf("%+--+--d\n", 78);
 
-	_printf("% d\n", 78);
-	printf("%  d\n", 78);
+
 
 	_printf("%05d\n", 89);
         printf("%05d\n", 89);
@@ -22,7 +19,7 @@ _printf("%09s\n", "pascal");
 
 	int num = 273;
 
-	_printf("%##X\n", num);               printf("%##X\n", num);
+	_printf("%#X\n", num);               printf("%#X\n", num);
 
 	_printf("%014f\n", 67.87);
           printf("%014f\n", 67.87);

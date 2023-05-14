@@ -1,6 +1,6 @@
 #include "main.h"
 
-const char* (*flagtype(char ch))(const char *c, char b, va_list arg)
+const char* (*flagtype(char ch))(const char *c, char b, va_list)
 {
 	isflag flag_funcs[] = {
                 {'+', isPlus},

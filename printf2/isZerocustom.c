@@ -1,8 +1,7 @@
 #include "main.h"
 #include <ctype.h>
-#include <string.h>
 #include <stdarg.h>
-
+#include <string.h>
 const char * isZerocustom(const char * c1, char sp1, va_list arg1)
 {
 	if (sp1 == 'd' || sp1 == 'i')
