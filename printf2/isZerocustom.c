@@ -1,7 +1,13 @@
 #include "main.h"
 #include <ctype.h>
+<<<<<<< HEAD
 #include <stdarg.h>
 #include <string.h>
+=======
+#include <string.h>
+#include <stdarg.h>
+
+>>>>>>> d760bf6249bdd759a314a82c528a75452804dc11
 const char * isZerocustom(const char * c1, char sp1, va_list arg1)
 {
 	if (sp1 == 'd' || sp1 == 'i')
