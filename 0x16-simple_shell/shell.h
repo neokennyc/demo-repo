@@ -26,11 +26,11 @@ typedef struct command
 
 
 #define MAX_COMMAND_LENGTH 1024
-#define MAX_ALIAS_NAME 50
+#define MAX_ALIAS_NAME 1024
 #define BUFFER_SIZE 1024
-#define MAX_ALIAS_VALUE 100
+#define MAX_ALIAS_VALUE 1024
 #define ALIAS_FILE "aliases.txt"
-#define MAX_NUM_ARGS 100
+#define MAX_NUM_ARGS 1024
 extern char **environ;
 
 typedef struct liststr
@@ -78,6 +78,7 @@ typedef struct stdinfo
 
 // Prototype for the custom getline function
 char *_strrchr(char *str, int character);
+int _rename(const char *oldname, const char *newname);
 char *_strstr(char *haystack, char *needle);
 char *_strncpy(char *dest, char *src, int n);
 int _strncmp(char *s1, char *s2, size_t n);
