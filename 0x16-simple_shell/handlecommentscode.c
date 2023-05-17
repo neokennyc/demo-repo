@@ -6,7 +6,7 @@
 
 #define MAX_CMD_LENGTH 1024
 #define MAX_ARGS 64
-
+#define BUFFER_SIZE 1024
 int execute_command(char **args) {
     pid_t pid, wpid;
     int status;
@@ -41,6 +41,8 @@ int run_shell_interactive() {
         line = NULL;
         size_t line_buf_size = 0;
         getline(&line, &line_buf_size, stdin);
+	if (strcmp(line, " "))
+			break;
         if (strcmp(line, "\n") == 0) {
             continue;
         }
@@ -75,15 +77,26 @@ int run_shell_noninteractive(char *filename, char **command_args, int num_args) 
     FILE *file = NULL;
     char *line = NULL;
     char **args = NULL;
+    char *comment_start;
     int status = 0;
-
+    char *token;
+    int arg_count;
+char buffer[BUFFER_SIZE];                 ssize_t bytesRead;                        char line2[BUFFER_SIZE];                  int i, lineLength = 0;
+int fileDescriptor;
     // Check if filename is provided
     if (filename != NULL) {
-        file = fopen(filename, "r");
-        if (!file) {
-            perror(filename);
-            return 1;
-        }
+        //file = fopen(filename, "r");
+	fileDescriptor = open(filename, O_RDONLY);
+	if (fileDescriptor == -1)
+	{
+		perror(filename);
+		return -1;
+	}
+
+	/*if (!file) {*/
+        /*    perror(filename);*/
+          /*  return 1;*/
+       /* }*/
     }
 
     do {
@@ -92,9 +105,15 @@ int run_shell_noninteractive(char *filename, char **command_args, int num_args) 
         ssize_t line_length = -1;
 
         // Read from file or command line arguments
-        if (file) {
-            line_length = getline(&line, &line_buf_size, file);
-        } else if (num_args > 0) {
+       /* if (file) {*/
+if (fileDescriptor)
+{
+ //   line_length = getline(&line, &line_buf_size, file);
+
+	/* Null-terminate the line*/
+
+        }
+	else if (num_args > 0) {
             // Combine the command line arguments into a single string
             size_t args_len = 0;
             for (int i = 0; i < num_args; i++) {
@@ -114,14 +133,61 @@ int run_shell_noninteractive(char *filename, char **command_args, int num_args) 
             break;
         }
 
-        // Remove newline character from the end of the line
+
+if (fileDescriptor)
+{
+while ((bytesRead = read(fileDescriptor, buffer, BUFFER_SIZE)) > 0)                 {
+	for (i = 0; i < bytesRead; i++)
+	{
+	if (buffer[i] == '\n')
+	{
+	line2[lineLength] = '\0';
+
+/* Handle comments*/
+comment_start = strchr(line2, '#');
+if (comment_start != NULL) 
+{
+*comment_start = '\0';
+lineLength = comment_start - line2;
+}
+if (lineLength == 0) 
+{/*Empty line or line with only comments*/continue;
+}
+
+/*Split the line into arguments */
+args = (char **) malloc(MAX_ARGS * sizeof(char *));
+token = strtok(line2, " \t\n");
+arg_count = 0;
+while (token != NULL) {
+	args[arg_count] = token;
+	arg_count++;
+	token = strtok(NULL, " \t\n");
+}
+args[arg_count] = NULL;
+status = execute_command(args);
+lineLength = 0;                           
+}else {
+line2[lineLength] = buffer[i];
+lineLength++;
+}
+}
+free(args);
+}
+close(fileDescriptor);
+break;
+}/*file handle ends here */
+
+else if (num_args)/*args starts here */
+{
+
+// Remove newline character from the end of the line
         if (line_length > 0 && line[line_length - 1] == '\n') {
             line[line_length - 1] = '\0';
             line_length--;
-        }
+       }
 
         // Handle comments
-        char *comment_start = strchr(line, '#');
+        comment_start = strchr(line, '#');
         if (comment_start != NULL) {
             *comment_start = '\0';
             line_length = comment_start - line;
@@ -134,8 +200,9 @@ int run_shell_noninteractive(char *filename, char **command_args, int num_args) 
 
         // Split the line into arguments
         args = (char **) malloc(MAX_ARGS * sizeof(char *));
-        char *token = strtok(line, " \t\n");
-        int arg_count = 0;
+        token = strtok(line, " \t\n");
+
+        arg_count = 0;
         while (token != NULL) {
             args[arg_count] = token;
             arg_count++;
@@ -144,14 +211,15 @@ int run_shell_noninteractive(char *filename, char **command_args, int num_args) 
         args[arg_count] = NULL;
 
         status = execute_command(args);
+}/*args ends here*/
 
         free(line);
         free(args);
-    } while (file || num_args > 0);
+    } while (fileDescriptor || num_args > 0);
 
-    if (file) {
-        fclose(file);
-    }
+  /*  if (file) {*/
+     /*   fclose(file);*/
+   /* }*/
 
     return 0;
 }
